@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/css/uikit.css"
+        integrity="sha256-rLk75b53T4CKgcM98XjlcnsmEjP2whwKrqFqG8QoMOU=" crossorigin="anonymous" />
+</head>
+
+<body>
+    <input id="comboA" style="margin-top: 20px" class="uk-input uk-align-center uk-text-center uk-width-1-2" type="number"
+        placeholder="First digit"></input>
+    <input id="comboB" class="uk-input uk-align-center uk-text-center uk-width-1-2" type="number"
+        placeholder="Second digit"></input>
+    <input id="comboC" class="uk-input uk-align-center uk-text-center uk-width-1-2" type="number"
+        placeholder="Third digit"></input>
+    <input id="fullTurn" class="uk-input uk-align-center uk-text-center uk-width-1-2" type="number"
+        placeholder="Number of ticks" value="40"></input>
+    <button id="calculate" class="uk-button uk-button-primary uk-align-center">Calculate</button>
+    <h2 id="RLRCombo" class="uk-text uk-text-center"></h2>
+    <h2 id="RLRTicks" class="uk-text uk-text-center"></h2>
+    <h2 id="LRLCombo" class="uk-text uk-text-center"></h2>
+    <h2 id="LRLTicks" class="uk-text uk-text-center"></h2>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.7/js/uikit.js"
+        integrity="sha256-C2jrRUznldpQaeeMC9IGNf9PqAO3bOYtK1WoExSo+Pk=" crossorigin="anonymous"></script>
+    <script>
+        function RLRCombo(comboA, comboB, comboC, fullTurn) {
+
+            let totalTicks = 0;
+            const FULL_TURN = fullTurn;
+
+            totalTicks += FULL_TURN;
+            let diffAB = comboB - comboA;
+            if (diffAB < 0) {
+                diffAB += FULL_TURN;
+            }
+            totalTicks += diffAB;
+
+            let diffBC = comboB - comboC;
+            if (diffBC < 0) {
+                diffBC += FULL_TURN;
+            }
+            totalTicks += diffBC;
+
+            return totalTicks;
+        }
+
+        function LRLCombo(comboA, comboB, comboC, fullTurn) {
+
+            let totalTicks = 0;
+            const FULL_TURN = fullTurn;
+
+            totalTicks += FULL_TURN;
+            let diffAB = comboA - comboB;
+            if (diffAB < 0) {
+                diffAB += FULL_TURN;
+            }
+            totalTicks += diffAB;
+
+            let diffBC = comboC - comboB;
+            if (diffBC < 0) {
+                diffBC += FULL_TURN;
+            }
+            totalTicks += diffBC;
+
+            return totalTicks;
+        }
+
+        function calc() {
+            let fullTurn = parseInt($("#fullTurn").val());
+            let comboA = parseInt($("#comboA").val());
+            let comboB = parseInt($("#comboB").val());
+            let comboC = parseInt($("#comboC").val());
+            let RLRTicks = RLRCombo(comboA, comboB, comboC, fullTurn);
+            let LRLTicks = LRLCombo(comboA, comboB, comboC, fullTurn);
+            $("#RLRCombo").html(`RLR Combo: ${comboA} ${comboB} ${comboC}`);
+            $("#RLRTicks").html(`RLR Ticks: ${RLRTicks}`);
+            $("#LRLCombo").html(`LRL Combo: ${comboA - 7} ${comboB + 1} ${comboC}`);
+            $("#LRLTicks").html(`LRL Ticks: ${LRLTicks}`);
+        }
+
+        $("#calculate").click(calc)
+    </script>
+</body>
